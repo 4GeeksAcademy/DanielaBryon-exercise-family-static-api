@@ -15,7 +15,7 @@ class FamilyStructure:
         # example list of members
         self._members = [
             {
-                "id": 1234,
+                "id": self._generateId(),
                 "first_name": "John",
                 "last_name": last_name,
                 "age": 33,
@@ -35,6 +35,8 @@ class FamilyStructure:
                 "age": 5,
                 "lucky_numbers": [1]
             }
+            
+            
         ]
 
     # read-only: Use this method to generate random members ID's when adding members into the list
@@ -44,35 +46,36 @@ class FamilyStructure:
     def add_member(self, member):
         # fill this method and update the return
         member ["last_name"] = self.last_name
-        member ["id"] =self._generateId()
-        self._members.appened(member)
+        if "id" not in member:
+            member ["id"] =self._generateId()
+        self._members.append(member)
         return member
 
         
 
     def delete_member(self, id):
         # fill this method and update the return
-        for member, position in enumerate(self._members):
-            if member["id"] == id :
+        for position, member in enumerate(self._members):
+            if member["id"] == id:
                 self._members.pop(position)
                 return {"done": True}
-            return {"done": False}
+        return {"done": False}
         
 
     def get_member(self, id):
         # fill this method and update the return
         for member in self._members:
             if member["id"] == id:
-                return member
-            return {"error": "Member not found"}
+                return {
+                    "id": member["id"],
+                    "first_name": member["first_name"],
+                    "last_name": member["last_name"],
+                    "age": member["age"],
+                    "lucky_numbers": member["lucky_numbers"]
+                }
+        return {"error": "Member not found"}     #tiene que estar fuera del bucle
         
 
-    def get_member(self, id):
-        for member in self._members:
-            if member ["id"] == id:
-                return member
-            return {"error": "Id not found"}
-        
 
     # this method is done, it returns a list with all the family members
     def get_all_members(self):
